@@ -110,7 +110,7 @@ namespace FanficNewApplication.Areas.Identity.Pages.Account
                     using (SmtpClient client = new SmtpClient())
                     {
                         client.Connect("smtp.gmail.com", 465, true); 
-                        client.Authenticate("artem.gymnasium1@gmail.com", "1862brat3838");
+                        client.Authenticate("---", "---");
                         client.Send(message);
 
                         client.Disconnect(true);
