@@ -40,7 +40,9 @@ namespace FanficNewApplication
                 options.Password.RequireUppercase = false;
                 options.Password.RequireDigit = true;
                 options.Password.RequireNonAlphanumeric = false;
-                })
+                options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(5);
+                options.Lockout.MaxFailedAccessAttempts = 3;
+            })
                  .AddDefaultUI()
                  .AddEntityFrameworkStores<ApplicationDbContext>()
                  .AddDefaultTokenProviders();
@@ -50,7 +52,7 @@ namespace FanficNewApplication
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            if (env.IsDevelopment())
+            if (env.IsDevelopment())    
             {
                 app.UseDeveloperExceptionPage();
                 app.UseMigrationsEndPoint();

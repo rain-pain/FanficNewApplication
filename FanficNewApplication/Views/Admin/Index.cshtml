@@ -1,0 +1,84 @@
+﻿@{
+    ViewData["Title"] = "Admin panel";
+
+}
+
+
+<figure class="text-center">
+    <h2>@ViewData["Title"]</h2>
+</figure>
+
+<a class="btn btn-danger" id="Delete" onclick="SelectList(this)">Delete</a>
+
+<div class="btn-group me-2" role="group" aria-label="First group">
+    <a class="btn btn-warning" id="Block" onclick="SelectList(this)">Block</a>
+    <a class="btn btn-success" id="Unblock" onclick="SelectList(this)">Unblock</a>
+</div>
+
+<a class="btn btn-primary" href="/Admin/AssignAdmin">Assign admin</a>
+
+<table class="table table-secondary">
+    <thead>
+        <tr class="table-active">
+            <th></th>
+            <th scope="col">ID</th>
+            <th scope="col">UserName</th>
+            <th scope="col">Email</th>
+            <th scope="col">EmailConfirmed</th>
+            <th scope="col">PhoneNumber</th>
+            <th scope="col">Block</th>
+
+        </tr>
+    </thead>
+
+    <tbody id="Users">
+        @foreach (var user in Model)
+        {
+            <tr>
+                <th>
+                    <div class="checkbox">
+                        <input type="checkbox" id="Check_@user.Id" />
+                        <label for="Check_@user.Id"></label>
+                    </div>
+                </th>
+                <th scope="row"> @user.Id </th>
+                <th> @user.UserName</th>
+                <th> @user.Email </th>
+                <th> @user.EmailConfirmed</th>
+                <th> @user.PhoneNumber </th>
+                <th> @if (@user.LockoutEnd >= DateTime.Now)@true else @false </th>
+            </tr>
+        }
+    </tbody>
+</table>
+
+
+<script>
+    function SelectList(item) {
+        var action = item.id;
+        var arrItem = [];
+        var commaSeparatedIds = "";
+        $("#Users tr input[type=checkbox]").each(function (index, val) {
+            debugger
+            var checkId = $(val).attr("Id");
+            var arr = checkId.split('_');
+            var currentCheckboxId = arr[1];
+
+            var IsChecked = $("#" + checkId).is(":checked", true);
+            if (IsChecked) {
+                arrItem.push(currentCheckboxId);
+            }
+
+        })
+
+        if (arrItem.length != 0) {
+            commaSeparatedIds = arrItem.toString();
+            $.ajax({
+                async: true,
+                url: "/Admin/DeleteBlockUnblockUsers",
+                type: "POST",
+                data: { IdList: commaSeparatedIds, action: action }
+            })
+        }
+    }
+</script>
