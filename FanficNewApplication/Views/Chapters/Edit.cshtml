@@ -1,0 +1,34 @@
+﻿@model FanficNewApplication.ViewModels.ChapterIdFanficViewModel
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h3>Edit chapter</h3>
+<hr />
+<div class="row">
+    <div class="col-md-12">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="chapter.Id" />
+            <div class="mb-3">
+                <label asp-for="chapter.Content" class="control-label"></label>
+                <textarea class="form-control" asp-for="chapter.Content" rows="10"></textarea>
+                <span asp-validation-for="chapter.Content" class="text-danger"></span>
+            </div>
+
+            <input type="hidden" asp-for="chapter.FanficId" class="form-control" value="@Model.idFanfic" />
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index" asp-route-fanficId="@Model.idFanfic">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

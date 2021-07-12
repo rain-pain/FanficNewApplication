@@ -1,4 +1,5 @@
 using FanficNewApplication.Data;
+using FanficNewApplication.Models;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -31,7 +32,7 @@ namespace FanficNewApplication
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
 
-            services.AddIdentity<IdentityUser, IdentityRole>(options =>
+            services.AddIdentity<ApplicationUser, IdentityRole>(options =>
             {
                 options.User.RequireUniqueEmail = true;
                 options.SignIn.RequireConfirmedEmail = true;

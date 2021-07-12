@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace TestAppAuthAndAuthorize.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class RoleController : Controller
     {
         RoleManager<IdentityRole> roleManager;
@@ -22,7 +23,6 @@ namespace TestAppAuthAndAuthorize.Controllers
             return View(roles);
         }
 
-        [Authorize(Roles = "Admin")]
         public IActionResult Create()
         {
             return View(new IdentityRole());

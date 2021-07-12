@@ -1,5 +1,6 @@
 ﻿@using Microsoft.AspNetCore.Identity
-@inject UserManager<IdentityUser> UserManager
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
 
 <!DOCTYPE html>
 <html lang="en">
@@ -28,15 +29,20 @@
                     <partial name="_LoginPartial" />
                     <ul class="navbar-nav flex-grow-1">
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Fanfics</a>
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Fandoms" asp-action="Index">Fandoms</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Autors</a>
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Fanfics" asp-action="Index">Fanfics</a>
                         </li>
-                        <li>
-                            <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-                        </li>
-
+                        @*<li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Fanfics" asp-action="Index">Authors</a>
+                        </li>*@
+                        @if (SignInManager.IsSignedIn(User))
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Fanfics" asp-action="UserFanfics">My fanfics</a>
+                            </li>
+                        }
                     </ul>
 
                 </div>
@@ -53,7 +59,7 @@
 
     <footer class="border-top footer text-muted">
         <div class="container">
-            © 2020 - TestAppAuthAndAuthorize - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+            © 2021 - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
         </div>
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>

@@ -1,0 +1,43 @@
+﻿@model List<Fanfic>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h3 class="text-center">My fanfics</h3>
+
+<p class="text-center">
+    <a class="btn btn-primary btn-sm" asp-action="Create">Create New</a>
+</p>
+
+@for (var i = 0; i < Model.Count() / 2.0; i++)
+{
+    <div class="row">
+        @for (var j = i * 2; j < i * 2 + 2 && j < Model.Count; j++)
+        {
+            <div class="col-sm-6">
+                <div class="card border-primary">
+                    <h5 class="card-header">
+                        <a asp-controller="Fanfics" asp-action="ShowFanfic" asp-route-fanficId="@Model[j].FanficId"
+                           class="card-title">@Model[j].FanficName </a>
+                    </h5>
+                    <div class="card-body">
+                        <p class="card-text">
+                            @Model[j].ShortDescription
+                        </p>
+                    </div>
+                    <h6 class="list-group-item">
+                        <a>Fandom - </a><a asp-controller="Fandoms" asp-action="ShowFandomFanfics" asp-route-fandomName="@Model[j].Fandom.FandomName">@Model[j].Fandom.FandomName</a>
+                    </h6>
+                    <div class="card-body">
+                        <a class="btn btn-success btn-sm" asp-controller="Chapters" asp-action="Index" asp-route-fanficId="@Model[j].FanficId">Chapters</a>
+                        <a class="btn btn-primary btn-sm" asp-action="Edit" asp-route-id="@Model[j].FanficId">Edit</a>
+                        <a class="btn btn-danger btn-sm" asp-action="Delete" asp-route-id="@Model[j].FanficId">Delete</a>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+    <br />
+    <br />
+}

@@ -1,4 +1,5 @@
-﻿using FanficNewApplication.ViewModels;
+﻿using FanficNewApplication.Models;
+using FanficNewApplication.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -19,8 +20,8 @@ namespace FanficNewApplication.Controllers
     {
         private readonly ILogger<HomeController> _logger;
         private readonly IConfiguration _config;
-        private readonly UserManager<IdentityUser> _userManager;
-        public AdminController(ILogger<HomeController> logger, IConfiguration config, UserManager<IdentityUser> userManager)
+        private readonly UserManager<ApplicationUser> _userManager;
+        public AdminController(ILogger<HomeController> logger, IConfiguration config, UserManager<ApplicationUser> userManager)
         {
             _logger = logger;
             _config = config;

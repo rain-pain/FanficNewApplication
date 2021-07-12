@@ -1,0 +1,42 @@
+﻿@model FanficNewApplication.Models.Fanfic
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h3>Details</h3>
+
+<div>
+    <h4>Fanfic</h4>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.FanficName)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.FanficName)
+        </dd>
+        @*<dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Content)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Content)
+        </dd>*@
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Fandom)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Fandom.Id)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Author)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Author.Id)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.FanficId">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>

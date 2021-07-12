@@ -1,0 +1,27 @@
+﻿@model Fanfic
+
+<div class="card">
+    <div class="card-header">
+        <h5 class="text-center">@Model.FanficName</h5>
+    </div>
+    <div class="card-body">
+        @if (Model.Chapter != null)
+        {
+            int j = 0;
+            @foreach (var chapter in Model.Chapter)
+            {
+                <div class="form-check m-0">
+                    <h6 class="text-center"> Chapter @(j+1)</h6>
+                    <p class="text-center">@chapter.Content</p>
+                    <br />
+                </div>
+                j++;
+            }
+        }
+        else
+        {
+            <h6 class="text-center"> Fanfic is empty</h6>
+        }
+    </div>
+
+</div>

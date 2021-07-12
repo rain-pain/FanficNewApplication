@@ -1,0 +1,42 @@
+﻿@using FanficNewApplication.ViewModels;
+@model FanficsOfFandomViewModel
+
+<h5 class="text-center">@Model.Fandom.FandomName fandom</h5>
+<br />
+
+@if (Model.Fanfics != null)
+{
+    @for (var i = 0; i < Model.Fanfics.Count() / 2.0; i++)
+    {
+        <div class="row">
+            @for (var j = i * 2; j < i * 2 + 2 && j < Model.Fanfics.Count(); j++)
+            {
+                <div class="col-sm-6">
+                    <div class="card border-info">
+                        <h5 class="card-header">
+                            <a asp-controller="Fanfics" asp-action="ShowFanfic" asp-route-fanficId="@Model.Fanfics[j].FanficId"
+                               class="card-title">@Model.Fanfics[j].FanficName </a>
+                        </h5>
+                        <div class="card-body">
+                            <p class="card-text">
+                                @Model.Fanfics[j].ShortDescription
+                            </p>
+                        </div>
+                        <h6 class="list-group-item">
+                            @*<a>Author - </a><a asp-controller="Fanfics" asp-action="AccountFanfics" asp-route-userId="@Model.Fanfics[j].Author.Id">@Model.Fanfics[j].Author.UserName</a>*@
+                            <a>Author - @Model.Fanfics[j].Author.UserName</a>
+                        </h6>
+
+                    </div>
+                </div>
+            }
+        </div>
+        <br />
+        <br />
+    }
+
+}
+else
+{
+    <h6 class="text-center">Fandom is empty</h6>
+}

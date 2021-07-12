@@ -10,18 +10,21 @@ using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
+using FanficNewApplication.Models;
+using MimeKit;
+using MailKit.Net.Smtp;
 
 namespace FanficNewApplication.Areas.Identity.Pages.Account.Manage
 {
     public partial class EmailModel : PageModel
     {
-        private readonly UserManager<IdentityUser> _userManager;
-        private readonly SignInManager<IdentityUser> _signInManager;
+        private readonly UserManager<ApplicationUser> _userManager;
+        private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly IEmailSender _emailSender;
 
         public EmailModel(
-            UserManager<IdentityUser> userManager,
-            SignInManager<IdentityUser> signInManager,
+            UserManager<ApplicationUser> userManager,
+            SignInManager<ApplicationUser> signInManager,
             IEmailSender emailSender)
         {
             _userManager = userManager;
@@ -49,7 +52,7 @@ namespace FanficNewApplication.Areas.Identity.Pages.Account.Manage
             public string NewEmail { get; set; }
         }
 
-        private async Task LoadAsync(IdentityUser user)
+        private async Task LoadAsync(ApplicationUser user)
         {
             var email = await _userManager.GetEmailAsync(user);
             Email = email;
@@ -74,6 +77,7 @@ namespace FanficNewApplication.Areas.Identity.Pages.Account.Manage
             return Page();
         }
 
+        [Obsolete]
         public async Task<IActionResult> OnPostChangeEmailAsync()
         {
             var user = await _userManager.GetUserAsync(User);
@@ -103,6 +107,23 @@ namespace FanficNewApplication.Areas.Identity.Pages.Account.Manage
                     Input.NewEmail,
                     "Confirm your email",
                     $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
+               
+                MimeMessage message = new MimeMessage();
+
+                message.From.Add(new MailboxAddress("Home of fanfics", "admin@mycompany.com"));
+                message.To.Add(new MailboxAddress(Input.NewEmail));
+
+                message.Subject = "By Home of fanfics with love";
+                message.Body = new BodyBuilder() { HtmlBody = $"Please confirm your account change by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>." }.ToMessageBody(); //тело сообщения (так же в формате HTML)
+
+                using (SmtpClient client = new SmtpClient())
+                {
+                    client.Connect("smtp.gmail.com", 465, true);
+                    client.Authenticate("artem.gymnasium1@gmail.com", "1862brat3838");
+                    client.Send(message);
+
+                    client.Disconnect(true);
+                }
 
                 StatusMessage = "Confirmation link to change email sent. Please check your email.";
                 return RedirectToPage();
@@ -112,6 +133,7 @@ namespace FanficNewApplication.Areas.Identity.Pages.Account.Manage
             return RedirectToPage();
         }
 
+        [Obsolete]
         public async Task<IActionResult> OnPostSendVerificationEmailAsync()
         {
             var user = await _userManager.GetUserAsync(User);
@@ -141,6 +163,23 @@ namespace FanficNewApplication.Areas.Identity.Pages.Account.Manage
                 $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
 
             StatusMessage = "Verification email sent. Please check your email.";
+
+            MimeMessage message = new MimeMessage();
+
+            message.From.Add(new MailboxAddress("Home of fanfics", "admin@mycompany.com"));
+            message.To.Add(new MailboxAddress(email));
+
+            message.Subject = "By Home of fanfics with love";
+            message.Body = new BodyBuilder() { HtmlBody = $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>." }.ToMessageBody(); //тело сообщения (так же в формате HTML)
+
+            using (SmtpClient client = new SmtpClient())
+            {
+                client.Connect("smtp.gmail.com", 465, true);
+                client.Authenticate("artem.gymnasium1@gmail.com", "1862brat3838");
+                client.Send(message);
+
+                client.Disconnect(true);
+            }
             return RedirectToPage();
         }
     }

@@ -1,0 +1,32 @@
+﻿@model List<Fandom>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h3 class="text-center">Fandoms</h3>
+
+<p class="text-center">
+    <a class="btn btn-primary btn-sm" asp-action="Create">Create New</a>
+</p>
+
+@for (var i = 0; i < Model.Count() / 3.0; i++)
+{
+    <div class="row">
+        @for (var j = i * 3; j < i * 3 + 3 && j < Model.Count; j++)
+        {
+            <div class="col-sm-4">
+                <div class="card border-secondary">
+                        <h5 class="card-header">
+                            <a asp-controller="Fandoms" asp-action="ShowFandomFanfics" asp-route-fandomName="@Model[j].FandomName" 
+                               class="card-title">@Model[j].FandomName</a>
+                        </h5>
+                        <div class="card-body">
+                            <p class="card-text">@Model[j].ShortDescription</p>
+                        </div>
+                    </div>
+                </div>
+        }
+    </div>
+    <br />
+}

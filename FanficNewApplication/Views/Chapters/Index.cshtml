@@ -1,0 +1,40 @@
+﻿@model Fanfic
+
+@{
+    ViewData["Title"] = "Index";
+}
+<h3 class="text-center">All chapters of @Model.FanficName fanfic</h3>
+<a class="btn btn-success" asp-action="Create" asp-route-idFanfic="@Model.FanficId">Create new chapter</a>
+@if (Model.Chapter != null)
+{
+    int j = 0;
+    <table class="table">
+        <thead class="table-light">
+            <tr>
+                <th scope="col">№</th>
+                <th scope="col"></th>
+                <th scope="col"></th>
+            </tr>
+        </thead>
+        <tbody id="Users">
+
+            @foreach (var chapter in Model.Chapter)
+            {
+                <tr>
+
+                    <th scope="row"> Chapter @(j+1) </th>
+                    <th> <a class="btn btn-primary btn-sm" asp-action="Edit" asp-route-id="@Model.FanficId" asp-route-chapterId="@j">Edit</a> </th>
+                    <th> <a class="btn btn-danger btn-sm" asp-action="Delete" asp-route-id="@chapter.Id">Delete</a></th>
+                </tr>
+                j++;
+
+            }
+
+
+        </tbody>
+    </table>
+}
+else
+{
+    <h6 class="text-center"> Fanfic is empty</h6>
+}
