@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace FanficNewApplication.Migrations
 {
-    public partial class AddAspFanficFandomTables : Migration
+    public partial class LocalDB : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -52,7 +52,8 @@ namespace FanficNewApplication.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    FandomName = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    FandomName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ShortDescription = table.Column<string>(type: "text", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -172,7 +173,7 @@ namespace FanficNewApplication.Migrations
                     FanficId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     FanficName = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Content = table.Column<string>(type: "text", nullable: true),
+                    ShortDescription = table.Column<string>(type: "text", nullable: true),
                     FandomId = table.Column<int>(type: "int", nullable: false),
                     AuthorId = table.Column<string>(type: "nvarchar(450)", nullable: true)
                 },
@@ -190,6 +191,26 @@ namespace FanficNewApplication.Migrations
                         column: x => x.FandomId,
                         principalTable: "Fandom",
                         principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Chapter",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Content = table.Column<string>(type: "text", nullable: true),
+                    FanficId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Chapter", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Chapter_Fanfic_FanficId",
+                        column: x => x.FanficId,
+                        principalTable: "Fanfic",
+                        principalColumn: "FanficId",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -233,6 +254,11 @@ namespace FanficNewApplication.Migrations
                 filter: "[NormalizedUserName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Chapter_FanficId",
+                table: "Chapter",
+                column: "FanficId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Fanfic_AuthorId",
                 table: "Fanfic",
                 column: "AuthorId");
@@ -261,10 +287,13 @@ namespace FanficNewApplication.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
-                name: "Fanfic");
+                name: "Chapter");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");
+
+            migrationBuilder.DropTable(
+                name: "Fanfic");
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");

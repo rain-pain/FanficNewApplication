@@ -148,7 +148,8 @@ namespace FanficNewApplication.Controllers
             var chapter = await _context.Chapter.FindAsync(id);
             _context.Chapter.Remove(chapter);
             await _context.SaveChangesAsync();
-            return RedirectToAction("ShowFanfic", "Fanfics", new { fanficId = id });
+
+            return RedirectToAction("ShowFanfic", "Fanfics", new { fanficId = chapter.FanficId });
         }
 
         private bool ChapterExists(int id)

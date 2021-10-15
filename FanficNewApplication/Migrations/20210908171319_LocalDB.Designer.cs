@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FanficNewApplication.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20210711232244_AddShortDescriptions")]
-    partial class AddShortDescriptions
+    [Migration("20210908171319_LocalDB")]
+    partial class LocalDB
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -86,6 +86,26 @@ namespace FanficNewApplication.Migrations
                     b.ToTable("AspNetUsers");
                 });
 
+            modelBuilder.Entity("FanficNewApplication.Models.Chapter", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Content")
+                        .HasColumnType("text");
+
+                    b.Property<int>("FanficId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("FanficId");
+
+                    b.ToTable("Chapter");
+                });
+
             modelBuilder.Entity("FanficNewApplication.Models.Fandom", b =>
                 {
                     b.Property<int>("Id")
@@ -113,9 +133,6 @@ namespace FanficNewApplication.Migrations
 
                     b.Property<string>("AuthorId")
                         .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("Content")
-                        .HasColumnType("text");
 
                     b.Property<int>("FandomId")
                         .HasColumnType("int");
@@ -266,6 +283,17 @@ namespace FanficNewApplication.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
+            modelBuilder.Entity("FanficNewApplication.Models.Chapter", b =>
+                {
+                    b.HasOne("FanficNewApplication.Models.Fanfic", "Fanfic")
+                        .WithMany("Chapter")
+                        .HasForeignKey("FanficId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Fanfic");
+                });
+
             modelBuilder.Entity("FanficNewApplication.Models.Fanfic", b =>
                 {
                     b.HasOne("FanficNewApplication.Models.ApplicationUser", "Author")
@@ -342,6 +370,11 @@ namespace FanficNewApplication.Migrations
             modelBuilder.Entity("FanficNewApplication.Models.Fandom", b =>
                 {
                     b.Navigation("Fanfic");
+                });
+
+            modelBuilder.Entity("FanficNewApplication.Models.Fanfic", b =>
+                {
+                    b.Navigation("Chapter");
                 });
 #pragma warning restore 612, 618
         }

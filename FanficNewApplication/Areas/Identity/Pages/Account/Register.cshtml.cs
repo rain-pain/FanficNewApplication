@@ -97,7 +97,7 @@ namespace FanficNewApplication.Areas.Identity.Pages.Account
                     code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
                     var callbackUrl = Url.Page(
                         "/Account/ConfirmEmail",
-                        pageHandler: null,
+                        pageHandler: null,  
                         values: new { area = "Identity", userId = user.Id, code = code},
                         protocol: Request.Scheme);
 

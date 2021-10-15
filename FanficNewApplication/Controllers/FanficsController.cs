@@ -188,6 +188,7 @@ namespace FanficNewApplication.Controllers
         public IActionResult ShowFanfic(int fanficId)
         {
             var chapters = _context.Chapter.ToList();
+            var users = _context.Users.ToList();
 
             var fanfic = _context.Fanfic.Where(c => c.FanficId == fanficId).ToList().First();
             return View(fanfic);

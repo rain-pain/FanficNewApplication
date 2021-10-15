@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace TestAppAuthAndAuthorize.Controllers
+namespace FanficNewApplication.Controllers
 {
     [Authorize(Roles = "Admin")]
     public class RoleController : Controller
@@ -16,7 +16,6 @@ namespace TestAppAuthAndAuthorize.Controllers
             this.roleManager = roleManager;
         }
 
-        [Authorize(Roles = "Admin")]
         public IActionResult Index()
         {
             var roles = roleManager.Roles.ToList();

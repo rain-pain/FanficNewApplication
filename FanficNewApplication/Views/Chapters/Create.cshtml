@@ -13,7 +13,7 @@
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="mb-3">
                 <label asp-for="chapter.Content" class="control-label"></label>
-                <textarea class="form-control" asp-for="chapter.Content" rows="10"></textarea>
+                <textarea class="form-control" asp-for="chapter.Content" rows="15"></textarea>
                 <span asp-validation-for="chapter.Content" class="text-danger"></span>
             </div>
             <input type="hidden" asp-for="chapter.FanficId" class="form-control" value="@Model.idFanfic" />

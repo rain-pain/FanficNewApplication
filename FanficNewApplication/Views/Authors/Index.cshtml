@@ -1,0 +1,21 @@
+﻿@model List<ApplicationUser>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+@foreach (var author in Model)
+{
+    <div class="card" style="width: 18rem;">
+        <div class="card-body" >
+            <a asp-controller="Authors" asp-action="AuthorFanfics" asp-route-author="@author.UserName">
+                @author.UserName
+            </a>
+        </div>
+    </div>
+
+ 
+    <br />
+
+
+}
