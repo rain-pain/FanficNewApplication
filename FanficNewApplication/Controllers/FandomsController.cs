@@ -150,9 +150,9 @@ namespace FanficNewApplication.Controllers
 
         public IActionResult ShowFandomFanfics(string fandomName)
         {
-            var fanfics = _context.Fanfic.ToList();
+
             var users = _context.Users.ToList();
-            var fandom = _context.Fandom.Where(c => c.FandomName == fandomName).ToList().First();
+            var fandom = _context.Fandom.Include(x => x.Fanfic).Where(c => c.FandomName == fandomName).ToList().First();
 
             var model = new FanficsOfFandomViewModel
             {

@@ -13,7 +13,7 @@ namespace FanficNewApplication.Models
 
         [Column(TypeName = "text")]
         public string ShortDescription { get; set; }
-
+            
         public int FandomId { get; set; }
         public Fandom Fandom { get; set; }
         public string AuthorId { get; set; }

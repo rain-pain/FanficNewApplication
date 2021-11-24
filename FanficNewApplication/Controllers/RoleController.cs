@@ -9,16 +9,16 @@ namespace FanficNewApplication.Controllers
     [Authorize(Roles = "Admin")]
     public class RoleController : Controller
     {
-        RoleManager<IdentityRole> roleManager;
+        private readonly RoleManager<IdentityRole> _roleManager;
 
         public RoleController(RoleManager<IdentityRole> roleManager)
         {
-            this.roleManager = roleManager;
+            _roleManager = roleManager;
         }
 
         public IActionResult Index()
         {
-            var roles = roleManager.Roles.ToList();
+            var roles = _roleManager.Roles.ToList();
             return View(roles);
         }
 
@@ -30,7 +30,7 @@ namespace FanficNewApplication.Controllers
         [HttpPost]
         public async Task<IActionResult> Create(IdentityRole role)
         {
-            await roleManager.CreateAsync(role);
+            await _roleManager.CreateAsync(role);
             return RedirectToAction("Index");
         }
     }

@@ -10,4 +10,4 @@ namespace FanficNewApplication.Models
     {
         public ICollection<Fanfic> Fanfic { get; set; }
     }
-}
+}   

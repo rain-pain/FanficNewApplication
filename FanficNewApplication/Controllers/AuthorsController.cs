@@ -2,8 +2,10 @@
 using FanficNewApplication.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -13,7 +15,7 @@ namespace FanficNewApplication.Controllers
     {
         private readonly ApplicationDbContext _context;
 
-        public AuthorsController(ApplicationDbContext context, UserManager<ApplicationUser> userManager)
+        public AuthorsController(ApplicationDbContext context)
         {
             _context = context;
         }
@@ -21,18 +23,14 @@ namespace FanficNewApplication.Controllers
         public IActionResult Index()
         {
             var authors = _context.Users.ToList();
-            var fanfics = _context.Fanfic.ToList();
 
             return View(authors);
         }
 
         public IActionResult AuthorFanfics(string author)
         {
-            var fandoms = _context.Fandom.ToList();
-            var users = _context.Users.ToList();
-            var fanfics = _context.Fanfic.ToList();
 
-            var authorFanfics = _context.Fanfic.Where(c => c.Author.UserName == author).ToList();
+            var authorFanfics = _context.Fanfic.Include(x => x.Fandom).Include(x => x.Author).Where(c => c.Author.UserName == author).ToList();
             return View(authorFanfics);
         }
     }

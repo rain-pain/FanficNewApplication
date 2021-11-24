@@ -25,8 +25,7 @@ namespace FanficNewApplication.Controllers
         // GET: Chapters
         public IActionResult Index(int fanficId)
         {
-            var chapters = _context.Chapter.ToList();
-            var fanfic = _context.Fanfic.Where(c => c.FanficId == fanficId).ToList().First();
+            var fanfic = _context.Fanfic.Include(x => x.Chapter).Where(c => c.FanficId == fanficId).ToList().First();
 
             return View(fanfic);
         }

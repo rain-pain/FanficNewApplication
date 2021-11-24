@@ -25,7 +25,7 @@ namespace FanficNewApplication.Areas.Identity.Pages.Account
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly ILogger<RegisterModel> _logger;
-        private readonly IEmailSender _emailSender;
+        //private readonly IEmailSender _emailSender;
         private readonly RoleManager<IdentityRole> _roleManager;
 
         public RegisterModel(
@@ -38,7 +38,7 @@ namespace FanficNewApplication.Areas.Identity.Pages.Account
             _userManager = userManager;
             _signInManager = signInManager;
             _logger = logger;
-            _emailSender = emailSender;
+            //_emailSender = emailSender;
             _roleManager = roleManager;
         }
 
@@ -93,7 +93,7 @@ namespace FanficNewApplication.Areas.Identity.Pages.Account
                     _logger.LogInformation("User created a new account with password.");
                     await _userManager.AddToRoleAsync(user, "User");
 
-                    var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+                    /*var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
                     code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
                     var callbackUrl = Url.Page(
                         "/Account/ConfirmEmail",
@@ -119,7 +119,7 @@ namespace FanficNewApplication.Areas.Identity.Pages.Account
                         client.Send(message);
 
                         client.Disconnect(true);
-                    }
+                    }*/
 
                     if (_userManager.Options.SignIn.RequireConfirmedAccount)
                     {

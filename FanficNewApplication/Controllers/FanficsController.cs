@@ -21,7 +21,7 @@ namespace FanficNewApplication.Controllers
         private readonly ApplicationDbContext _context;
         private readonly UserManager<ApplicationUser> _userManager;
 
-        public FanficsController(ApplicationDbContext context, UserManager<ApplicationUser> userManager)
+        public FanficsController(Data.ApplicationDbContext context, UserManager<ApplicationUser> userManager)
         { 
             _context = context;
             _userManager = userManager;
@@ -31,9 +31,8 @@ namespace FanficNewApplication.Controllers
         // GET: Fanfics
         public IActionResult Index()
         {
-            var fandoms = _context.Fandom.ToList();
-            var users = _context.Users.ToList();
-            var fanfics = _context.Fanfic.ToList();
+
+            var fanfics = _context.Fanfic.Include(x => x.Author).Include(x => x.Fandom).ToList();
 
             return View(fanfics);
         }
@@ -177,20 +176,14 @@ namespace FanficNewApplication.Controllers
         [Authorize]
         public IActionResult UserFanfics()
         {
-            var fandoms = _context.Fandom.ToList();
-            var users = _context.Users.ToList();
-            var fanfics = _context.Fanfic.ToList();
 
-            var userFanfics = _context.Fanfic.Where(c => c.Author.UserName == User.Identity.Name).ToList();
+            var userFanfics = _context.Fanfic.Include(x => x.Fandom).Include(x => x.Author).Where(c => c.Author.UserName == User.Identity.Name).ToList();
             return View(userFanfics);
         }
 
         public IActionResult ShowFanfic(int fanficId)
         {
-            var chapters = _context.Chapter.ToList();
-            var users = _context.Users.ToList();
-
-            var fanfic = _context.Fanfic.Where(c => c.FanficId == fanficId).ToList().First();
+            var fanfic = _context.Fanfic.Include(x => x.Chapter).Include(x => x.Author).Where(c => c.FanficId == fanficId).ToList().First();
             return View(fanfic);
         }
 
